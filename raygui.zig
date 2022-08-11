@@ -138,7 +138,7 @@ pub extern fn GuiColorPicker(bounds: rl.Rectangle, text: [*c]const u8, color: rl
 pub extern fn GuiColorPanel(bounds: rl.Rectangle, text: [*c]const u8, color: rl.Color) rl.Color;
 pub extern fn GuiColorBarAlpha(bounds: rl.Rectangle, text: [*c]const u8, alpha: f32) f32;
 pub extern fn GuiColorBarHue(bounds: rl.Rectangle, text: [*c]const u8, value: f32) f32;
-pub extern fn GuiLoadStyle(fileName: [*c]const u8) void;
+pub extern fn GuiLoadStyle(fileName: [*:0]const u8) void;
 pub extern fn GuiLoadStyleDefault() void;
 pub extern fn GuiIconText(iconId: c_int, text: [*c]const u8) [*c]const u8;
 pub extern fn GuiDrawIcon(iconId: c_int, posX: c_int, posY: c_int, pixelSize: c_int, color: rl.Color) void;

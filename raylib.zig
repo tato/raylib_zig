@@ -1,6 +1,9 @@
 pub const Vector2 = extern struct {
     x: f32,
     y: f32,
+    pub fn init(x: f32, y: f32) Vector2 {
+        return Vector2{ .x = x, .y = y };
+    }
 };
 pub const Vector3 = extern struct {
     x: f32,

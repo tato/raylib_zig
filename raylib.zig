@@ -873,10 +873,24 @@ pub extern fn GetPixelColor(srcPtr: ?*anyopaque, format: c_int) Color;
 pub extern fn SetPixelColor(dstPtr: ?*anyopaque, color: Color, format: c_int) void;
 pub extern fn GetPixelDataSize(width: c_int, height: c_int, format: c_int) c_int;
 pub extern fn GetFontDefault() Font;
-pub extern fn LoadFont(fileName: [*c]const u8) Font;
-pub extern fn LoadFontEx(fileName: [*c]const u8, fontSize: c_int, fontChars: [*c]c_int, glyphCount: c_int) Font;
+pub extern fn LoadFont(fileName: [*:0]const u8) Font;
+pub inline fn LoadFontEx(fileName: [*:0]const u8, fontSize: c_int, fontChars: ?[]c_int) Font {
+    const fc = if (fontChars) |c| c.ptr else null;
+    const gc = if (fontChars) |c| c.len else 0;
+    return load_font_ex.LoadFontEx(fileName, fontSize, fc, @intCast(c_int, gc));
+}
+const load_font_ex = struct {
+    pub extern fn LoadFontEx(fileName: [*c]const u8, fontSize: c_int, fontChars: [*c]c_int, glyphCount: c_int) Font;
+};
 pub extern fn LoadFontFromImage(image: Image, key: Color, firstChar: c_int) Font;
-pub extern fn LoadFontFromMemory(fileType: [*c]const u8, fileData: [*c]const u8, dataSize: c_int, fontSize: c_int, fontChars: [*c]c_int, glyphCount: c_int) Font;
+pub inline fn LoadFontFromMemory(fileType: [*:0]const u8, fileData: []const u8, fontSize: c_int, fontChars: ?[]c_int) Font {
+    const fc = if (fontChars) |c| c.ptr else null;
+    const gc = if (fontChars) |c| c.len else 0;
+    return load_font_from_memory.LoadFontFromMemory(fileType, fileData.ptr, @intCast(c_int, fileData.len), fontSize, fc, @intCast(c_int, gc));
+}
+const load_font_from_memory = struct {
+    extern fn LoadFontFromMemory(fileType: [*c]const u8, fileData: [*c]const u8, dataSize: c_int, fontSize: c_int, fontChars: [*c]c_int, glyphCount: c_int) Font;
+};
 pub extern fn LoadFontData(fileData: [*c]const u8, dataSize: c_int, fontSize: c_int, fontChars: [*c]c_int, glyphCount: c_int, @"type": c_int) [*c]GlyphInfo;
 pub extern fn GenImageFontAtlas(chars: [*c]const GlyphInfo, recs: [*c][*c]Rectangle, glyphCount: c_int, fontSize: c_int, padding: c_int, packMethod: c_int) Image;
 pub extern fn UnloadFontData(chars: [*c]GlyphInfo, glyphCount: c_int) void;

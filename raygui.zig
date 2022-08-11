@@ -110,7 +110,7 @@ pub extern fn GuiGroupBox(bounds: rl.Rectangle, text: [*c]const u8) void;
 pub extern fn GuiLine(bounds: rl.Rectangle, text: [*c]const u8) void;
 pub extern fn GuiPanel(bounds: rl.Rectangle, text: [*c]const u8) void;
 pub extern fn GuiScrollPanel(bounds: rl.Rectangle, text: [*c]const u8, content: rl.Rectangle, scroll: [*c]rl.Vector2) rl.Rectangle;
-pub extern fn GuiLabel(bounds: rl.Rectangle, text: [*c]const u8) void;
+pub extern fn GuiLabel(bounds: rl.Rectangle, text: [*:0]const u8) void;
 pub extern fn GuiButton(bounds: rl.Rectangle, text: [*c]const u8) bool;
 pub extern fn GuiLabelButton(bounds: rl.Rectangle, text: [*c]const u8) bool;
 pub extern fn GuiToggle(bounds: rl.Rectangle, text: [*c]const u8, active: bool) bool;
@@ -120,7 +120,9 @@ pub extern fn GuiComboBox(bounds: rl.Rectangle, text: [*c]const u8, active: c_in
 pub extern fn GuiDropdownBox(bounds: rl.Rectangle, text: [*c]const u8, active: [*c]c_int, editMode: bool) bool;
 pub extern fn GuiSpinner(bounds: rl.Rectangle, text: [*c]const u8, value: [*c]c_int, minValue: c_int, maxValue: c_int, editMode: bool) bool;
 pub extern fn GuiValueBox(bounds: rl.Rectangle, text: [*c]const u8, value: [*c]c_int, minValue: c_int, maxValue: c_int, editMode: bool) bool;
-pub extern fn GuiTextBox(bounds: rl.Rectangle, text: [*c]u8, textSize: c_int, editMode: bool) bool;
+pub inline fn GuiTextBox(bounds: rl.Rectangle, text: [:0]u8, editMode: bool) bool {
+    return override.GuiTextBox(bounds, text.ptr, @intCast(c_int, text.len), editMode);
+}
 pub extern fn GuiTextBoxMulti(bounds: rl.Rectangle, text: [*c]u8, textSize: c_int, editMode: bool) bool;
 pub extern fn GuiSlider(bounds: rl.Rectangle, textLeft: [*c]const u8, textRight: [*c]const u8, value: f32, minValue: f32, maxValue: f32) f32;
 pub extern fn GuiSliderBar(bounds: rl.Rectangle, textLeft: [*c]const u8, textRight: [*c]const u8, value: f32, minValue: f32, maxValue: f32) f32;
@@ -807,3 +809,7 @@ pub const RAYGUIAPI = "";
 pub const RAYGUI_SUPPORT_LOG_INFO = "";
 pub const SCROLLBAR_LEFT_SIDE = @as(c_int, 0);
 pub const SCROLLBAR_RIGHT_SIDE = @as(c_int, 1);
+
+const override = struct {
+    extern fn GuiTextBox(bounds: rl.Rectangle, text: [*c]u8, textSize: c_int, editMode: bool) bool;
+};

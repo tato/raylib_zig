@@ -49,6 +49,18 @@ pub const Rectangle = extern struct {
     pub fn init(x: f32, y: f32, width: f32, height: f32) Rectangle {
         return Rectangle{ .x = x, .y = y, .width = width, .height = height };
     }
+    pub fn asInt(rectangle: Rectangle) RectangleInt {
+        var r: RectangleInt = undefined;
+        inline for (@typeInfo(Rectangle).Struct.fields) |fld|
+            @field(r, fld.name) = @floatToInt(c_int, @field(rectangle, fld.name));
+        return r;
+    }
+};
+pub const RectangleInt = extern struct {
+    x: c_int,
+    y: c_int,
+    width: c_int,
+    height: c_int,
 };
 pub const Image = extern struct {
     data: ?*anyopaque,

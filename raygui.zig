@@ -120,8 +120,11 @@ pub extern fn GuiComboBox(bounds: rl.Rectangle, text: [*c]const u8, active: c_in
 pub extern fn GuiDropdownBox(bounds: rl.Rectangle, text: [*c]const u8, active: [*c]c_int, editMode: bool) bool;
 pub extern fn GuiSpinner(bounds: rl.Rectangle, text: [*c]const u8, value: [*c]c_int, minValue: c_int, maxValue: c_int, editMode: bool) bool;
 pub extern fn GuiValueBox(bounds: rl.Rectangle, text: [*c]const u8, value: [*c]c_int, minValue: c_int, maxValue: c_int, editMode: bool) bool;
+const gui_text_box = struct {
+    extern fn GuiTextBox(bounds: rl.Rectangle, text: [*c]u8, textSize: c_int, editMode: bool) bool;
+};
 pub inline fn GuiTextBox(bounds: rl.Rectangle, text: [:0]u8, editMode: bool) bool {
-    return override.GuiTextBox(bounds, text.ptr, @intCast(c_int, text.len), editMode);
+    return gui_text_box.GuiTextBox(bounds, text.ptr, @intCast(c_int, text.len), editMode);
 }
 pub extern fn GuiTextBoxMulti(bounds: rl.Rectangle, text: [*c]u8, textSize: c_int, editMode: bool) bool;
 pub extern fn GuiSlider(bounds: rl.Rectangle, textLeft: [*c]const u8, textRight: [*c]const u8, value: f32, minValue: f32, maxValue: f32) f32;
@@ -409,7 +412,3 @@ pub const GuiIconName = c_uint;
 pub const RAYGUI_VERSION = "3.2";
 pub const SCROLLBAR_LEFT_SIDE = @as(c_int, 0);
 pub const SCROLLBAR_RIGHT_SIDE = @as(c_int, 1);
-
-const override = struct {
-    extern fn GuiTextBox(bounds: rl.Rectangle, text: [*c]u8, textSize: c_int, editMode: bool) bool;
-};

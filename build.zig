@@ -22,6 +22,7 @@ pub fn getRaylib(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.
     raylib.setTarget(target);
     raylib.linkLibC();
 
+    raylib.addIncludeDir(raylib_dir);
     raylib.addIncludeDir(raylib_dir ++ "/external/glfw/include");
 
     raylib.addCSourceFiles(&.{
@@ -32,6 +33,7 @@ pub fn getRaylib(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.
         raylib_dir ++ "/rtext.c",
         raylib_dir ++ "/rtextures.c",
         raylib_dir ++ "/utils.c",
+        src_dir ++ "/raylib.c",
     }, raylib_flags);
 
     switch (raylib.target.toTarget().os.tag) {

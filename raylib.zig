@@ -760,7 +760,12 @@ pub extern fn DrawLineEx(startPos: Vector2, endPos: Vector2, thick: f32, color: 
 pub extern fn DrawLineBezier(startPos: Vector2, endPos: Vector2, thick: f32, color: Color) void;
 pub extern fn DrawLineBezierQuad(startPos: Vector2, endPos: Vector2, controlPos: Vector2, thick: f32, color: Color) void;
 pub extern fn DrawLineBezierCubic(startPos: Vector2, endPos: Vector2, startControlPos: Vector2, endControlPos: Vector2, thick: f32, color: Color) void;
-pub extern fn DrawLineStrip(points: [*c]Vector2, pointCount: c_int, color: Color) void;
+const draw_line_strip = struct {
+    extern fn DrawLineStrip(points: [*c]Vector2, pointCount: c_int, color: Color) void;
+};
+pub inline fn DrawLineStrip(points: []Vector2, color: Color) void {
+    draw_line_strip.DrawLineStrip(points.ptr, @intCast(c_int, points.len), color);
+}
 pub extern fn DrawCircle(centerX: c_int, centerY: c_int, radius: f32, color: Color) void;
 pub extern fn DrawCircleSector(center: Vector2, radius: f32, startAngle: f32, endAngle: f32, segments: c_int, color: Color) void;
 pub extern fn DrawCircleSectorLines(center: Vector2, radius: f32, startAngle: f32, endAngle: f32, segments: c_int, color: Color) void;

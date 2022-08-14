@@ -936,7 +936,15 @@ pub extern fn DrawTextPro(font: Font, text: [*:0]const u8, position: Vector2, or
 pub extern fn DrawTextCodepoint(font: Font, codepoint: c_int, position: Vector2, fontSize: f32, tint: Color) void;
 pub extern fn DrawTextCodepoints(font: Font, codepoints: [*c]const c_int, count: c_int, position: Vector2, fontSize: f32, spacing: f32, tint: Color) void;
 pub extern fn MeasureText(text: [*:0]const u8, fontSize: c_int) c_int;
-pub extern fn MeasureTextEx(font: Font, text: [*:0]const u8, fontSize: f32, spacing: f32) Vector2;
+const measure_text_ex = struct {
+    extern fn MeasureTextEx(font: Font, text: [*:0]const u8, fontSize: f32, spacing: f32) Vector2;
+    extern fn MeasureTextExPtr(font: Font, text: [*:0]const u8, fontSize: f32, spacing: f32, res: *Vector2) void;
+};
+pub inline fn MeasureTextEx(font: Font, text: [*:0]const u8, fontSize: f32, spacing: f32) Vector2 {
+    var result: Vector2 = undefined;
+    measure_text_ex.MeasureTextExPtr(font, text, fontSize, spacing, &result);
+    return result;
+}
 pub extern fn GetGlyphIndex(font: Font, codepoint: c_int) c_int;
 pub extern fn GetGlyphInfo(font: Font, codepoint: c_int) GlyphInfo;
 pub extern fn GetGlyphAtlasRec(font: Font, codepoint: c_int) Rectangle;

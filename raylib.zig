@@ -716,16 +716,24 @@ pub extern fn IsMouseButtonReleased(button: c_int) bool;
 pub extern fn IsMouseButtonUp(button: c_int) bool;
 pub extern fn GetMouseX() c_int;
 pub extern fn GetMouseY() c_int;
+const get_mouse_position = struct {
+    extern fn GetMousePosition() Vector2;
+    extern fn GetMousePositionZigHack(pos: *Vector2) void;
+};
 pub inline fn GetMousePosition() Vector2 {
     var pos: Vector2 = undefined;
     get_mouse_position.GetMousePositionZigHack(&pos);
     return pos;
 }
-const get_mouse_position = struct {
-    extern fn GetMousePosition() Vector2;
-    extern fn GetMousePositionZigHack(pos: *Vector2) void;
+const get_mouse_delta = struct {
+    extern fn GetMouseDelta() Vector2;
+    extern fn GetMouseDeltaPtr(delta: *Vector2) void;
 };
-pub extern fn GetMouseDelta() Vector2;
+pub inline fn GetMouseDelta() Vector2 {
+    var delta: Vector2 = undefined;
+    get_mouse_delta.GetMouseDeltaPtr(&delta);
+    return delta;
+}
 pub extern fn SetMousePosition(x: c_int, y: c_int) void;
 pub extern fn SetMouseOffset(offsetX: c_int, offsetY: c_int) void;
 pub extern fn SetMouseScale(scaleX: f32, scaleY: f32) void;

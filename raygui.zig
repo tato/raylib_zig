@@ -130,7 +130,7 @@ pub extern fn GuiTextBoxMulti(bounds: rl.Rectangle, text: [*c]u8, textSize: c_in
 pub extern fn GuiSlider(bounds: rl.Rectangle, textLeft: [*c]const u8, textRight: [*c]const u8, value: f32, minValue: f32, maxValue: f32) f32;
 pub extern fn GuiSliderBar(bounds: rl.Rectangle, textLeft: [*c]const u8, textRight: [*c]const u8, value: f32, minValue: f32, maxValue: f32) f32;
 pub extern fn GuiProgressBar(bounds: rl.Rectangle, textLeft: [*c]const u8, textRight: [*c]const u8, value: f32, minValue: f32, maxValue: f32) f32;
-pub extern fn GuiStatusBar(bounds: rl.Rectangle, text: [*c]const u8) void;
+pub extern fn GuiStatusBar(bounds: rl.Rectangle, text: [*:0]const u8) void;
 pub extern fn GuiDummyRec(bounds: rl.Rectangle, text: [*c]const u8) void;
 pub extern fn GuiGrid(bounds: rl.Rectangle, text: [*c]const u8, spacing: f32, subdivs: c_int) rl.Vector2;
 pub extern fn GuiListView(bounds: rl.Rectangle, text: [*c]const u8, scrollIndex: [*c]c_int, active: c_int) c_int;

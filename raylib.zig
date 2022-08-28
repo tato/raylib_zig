@@ -876,7 +876,7 @@ pub extern fn ImageDrawRectangleLines(dst: [*c]Image, rec: Rectangle, thick: c_i
 pub extern fn ImageDraw(dst: [*c]Image, src: Image, srcRec: Rectangle, dstRec: Rectangle, tint: Color) void;
 pub extern fn ImageDrawText(dst: [*c]Image, text: [*c]const u8, posX: c_int, posY: c_int, fontSize: c_int, color: Color) void;
 pub extern fn ImageDrawTextEx(dst: [*c]Image, font: Font, text: [*c]const u8, position: Vector2, fontSize: f32, spacing: f32, tint: Color) void;
-pub extern fn LoadTexture(fileName: [*c]const u8) Texture2D;
+pub extern fn LoadTexture(fileName: [*:0]const u8) Texture2D;
 pub extern fn LoadTextureFromImage(image: Image) Texture2D;
 pub extern fn LoadTextureCubemap(image: Image, layout: c_int) TextureCubemap;
 pub extern fn LoadRenderTexture(width: c_int, height: c_int) RenderTexture2D;

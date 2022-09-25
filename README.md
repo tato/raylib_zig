@@ -1,7 +1,5 @@
-half-baked raylib bindings
-
 ```
-git submodule add https://github.com/tato/raylib-for-zig raylib
+git submodule add https://github.com/tato/raylib_zig raylib
 git submodule update --init --recursive
 ```
 

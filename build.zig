@@ -22,8 +22,8 @@ pub fn getRaylib(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.
     raylib.setTarget(target);
     raylib.linkLibC();
 
-    raylib.addIncludeDir(raylib_dir);
-    raylib.addIncludeDir(raylib_dir ++ "/external/glfw/include");
+    raylib.addIncludePath(raylib_dir);
+    raylib.addIncludePath(raylib_dir ++ "/external/glfw/include");
 
     raylib.addCSourceFiles(&.{
         raylib_dir ++ "/raudio.c",
@@ -42,7 +42,7 @@ pub fn getRaylib(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.
             raylib.linkSystemLibrary("winmm");
             raylib.linkSystemLibrary("gdi32");
             raylib.linkSystemLibrary("opengl32");
-            raylib.addIncludeDir("external/glfw/deps/mingw");
+            raylib.addIncludePath("external/glfw/deps/mingw");
         },
         .linux => {
             raylib.addCSourceFiles(&.{raylib_dir ++ "/rglfw.c"}, raylib_flags);

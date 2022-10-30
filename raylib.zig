@@ -774,8 +774,9 @@ pub extern fn DrawLineBezierCubic(startPos: Vector2, endPos: Vector2, startContr
 const draw_line_strip = struct {
     extern fn DrawLineStrip(points: [*c]Vector2, pointCount: c_int, color: Color) void;
 };
-pub inline fn DrawLineStrip(points: []Vector2, color: Color) void {
-    draw_line_strip.DrawLineStrip(points.ptr, @intCast(c_int, points.len), color);
+pub inline fn DrawLineStrip(points: []const Vector2, color: Color) void {
+    const ptr = @intToPtr(*Vector2, @ptrToInt(points.ptr));
+    draw_line_strip.DrawLineStrip(ptr, @intCast(c_int, points.len), color);
 }
 pub extern fn DrawCircle(centerX: c_int, centerY: c_int, radius: f32, color: Color) void;
 pub extern fn DrawCircleSector(center: Vector2, radius: f32, startAngle: f32, endAngle: f32, segments: c_int, color: Color) void;

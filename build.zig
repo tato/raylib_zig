@@ -9,6 +9,11 @@ pub const raygui_pkg = std.build.Pkg{
     .source = .{ .path = src_dir ++ "/raygui.zig" },
     .dependencies = &.{raylib_pkg},
 };
+pub const raymath_pkg = std.build.Pkg{
+    .name = "raymath",
+    .source = .{ .path = src_dir ++ "/raymath.zig" },
+    .dependencies = &.{raylib_pkg},
+};
 
 const raylib_flags = &[_][]const u8{
     "-std=gnu99",
@@ -95,6 +100,18 @@ pub fn getRaygui(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.
     raygui.addCSourceFiles(&.{src_dir ++ "/raygui.c"}, raylib_flags);
 
     return raygui;
+}
+
+pub fn getRaymath(b: *std.build.Builder, mode: std.builtin.Mode, target: std.zig.CrossTarget) *std.build.LibExeObjStep {
+    const raymath = b.addStaticLibrary("raymath", null);
+    raymath.setBuildMode(mode);
+    raymath.setTarget(target);
+    raymath.linkLibC();
+
+    raymath.addIncludePath(raylib_dir);
+    raymath.addCSourceFiles(&.{src_dir ++ "/raymath.c"}, raylib_flags);
+
+    return raymath;
 }
 
 pub fn build(b: *std.build.Builder) !void {

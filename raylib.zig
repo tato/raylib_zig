@@ -149,7 +149,7 @@ pub const Mesh = extern struct {
 };
 pub const Shader = extern struct {
     id: c_uint,
-    locs: [*c]c_int,
+    locs: [*]c_int,
 };
 pub const MaterialMap = extern struct {
     texture: Texture2D,
@@ -158,7 +158,7 @@ pub const MaterialMap = extern struct {
 };
 pub const Material = extern struct {
     shader: Shader,
-    maps: [*c]MaterialMap,
+    maps: [*]MaterialMap,
     params: [4]f32,
 };
 pub const Transform = extern struct {
@@ -174,18 +174,18 @@ pub const Model = extern struct {
     transform: Matrix,
     meshCount: c_int,
     materialCount: c_int,
-    meshes: [*c]Mesh,
-    materials: [*c]Material,
-    meshMaterial: [*c]c_int,
+    meshes: [*]Mesh,
+    materials: [*]Material,
+    meshMaterial: [*]c_int,
     boneCount: c_int,
-    bones: [*c]BoneInfo,
-    bindPose: [*c]Transform,
+    bones: [*]BoneInfo,
+    bindPose: [*]Transform,
 };
 pub const ModelAnimation = extern struct {
     boneCount: c_int,
     frameCount: c_int,
-    bones: [*c]BoneInfo,
-    framePoses: [*c][*c]Transform,
+    bones: [*]BoneInfo,
+    framePoses: [*][*c]Transform,
 };
 pub const Ray = extern struct {
     position: Vector3,
@@ -649,8 +649,8 @@ pub extern fn BeginVrStereoMode(config: VrStereoConfig) void;
 pub extern fn EndVrStereoMode() void;
 pub extern fn LoadVrStereoConfig(device: VrDeviceInfo) VrStereoConfig;
 pub extern fn UnloadVrStereoConfig(config: VrStereoConfig) void;
-pub extern fn LoadShader(vsFileName: [*c]const u8, fsFileName: [*c]const u8) Shader;
-pub extern fn LoadShaderFromMemory(vsCode: [*c]const u8, fsCode: [*c]const u8) Shader;
+pub extern fn LoadShader(vsFileName: [*:0]const u8, fsFileName: [*:0]const u8) Shader;
+pub extern fn LoadShaderFromMemory(vsCode: [*:0]const u8, fsCode: [*:0]const u8) Shader;
 pub extern fn GetShaderLocation(shader: Shader, uniformName: [*c]const u8) c_int;
 pub extern fn GetShaderLocationAttrib(shader: Shader, attribName: [*c]const u8) c_int;
 pub extern fn SetShaderValue(shader: Shader, locIndex: c_int, value: ?*const anyopaque, uniformType: c_int) void;
@@ -1021,7 +1021,7 @@ pub extern fn DrawBoundingBox(box: BoundingBox, color: Color) void;
 pub extern fn DrawBillboard(camera: Camera, texture: Texture2D, position: Vector3, size: f32, tint: Color) void;
 pub extern fn DrawBillboardRec(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, size: Vector2, tint: Color) void;
 pub extern fn DrawBillboardPro(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, up: Vector3, size: Vector2, origin: Vector2, rotation: f32, tint: Color) void;
-pub extern fn UploadMesh(mesh: [*c]Mesh, dynamic: bool) void;
+pub extern fn UploadMesh(mesh: *Mesh, dynamic: bool) void;
 pub extern fn UpdateMeshBuffer(mesh: Mesh, index: c_int, data: ?*const anyopaque, dataSize: c_int, offset: c_int) void;
 pub extern fn UnloadMesh(mesh: Mesh) void;
 pub extern fn DrawMesh(mesh: Mesh, material: Material, transform: Matrix) void;

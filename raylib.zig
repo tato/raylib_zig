@@ -2,19 +2,25 @@ pub const Vector2 = extern struct {
     x: f32,
     y: f32,
     pub fn init(x: f32, y: f32) Vector2 {
-        return Vector2{ .x = x, .y = y };
+        return .{ .x = x, .y = y };
     }
 };
 pub const Vector3 = extern struct {
     x: f32,
     y: f32,
     z: f32,
+    pub fn init(x: f32, y: f32, z: f32) Vector3 {
+        return .{ .x = x, .y = y, .z = z };
+    }
 };
 pub const Vector4 = extern struct {
     x: f32,
     y: f32,
     z: f32,
     w: f32,
+    pub fn init(x: f32, y: f32, z: f32, w: f32) Vector3 {
+        return .{ .x = x, .y = y, .z = z, .w = w };
+    }
 };
 pub const Quaternion = Vector4;
 pub const Matrix = extern struct {
